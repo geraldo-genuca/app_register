@@ -4,7 +4,7 @@ import mysql.connector
 from datetime import date
 
 
-banco_cad_cli = mysql.connector.connect(
+banco_app_cad = mysql.connector.connect(
     host="localhost",
     user="root",
     passwd="Juni2311@",
@@ -22,21 +22,22 @@ def func_princ():
     num_casa = formulario.num_house.text()
     compl = formulario.compl.text()
     cep = formulario.zip_code.text()
+    cep_dig = formulario.cep_dig.text()
     ddd_tele = formulario.ddd_tele.text()
     tele = formulario.tele.text()
     ddd_tele_com = formulario.ddd_tele_com.text()
     tele_com = formulario.tele_com.text()
     
     
-    cursor = banco_cad_cli.cursor()
-    comand_SQL = "INSERT INTO clientes (nome, data_nasc, cpf, email, sexo, logradouro, numero, compl, cep, tel, tele_com) VALUES(%s, '$date', %s, %s, %s, %s, %d, %s, %s, %s, %s)"
-    dados = (str(nome), date(data_nasc), str(cpf), str(email), str(sexo), str(logradouro), int(num_casa), str(compl), str(cep), int(ddd_tele), str(tele), int(ddd_tele_com), str(tele_com))
+    cursor = banco_app_cad.cursor()
+    comand_SQL = "INSERT INTO clientes (nome, data_nasc, cpf, email, sexo, logradouro, numero, compl, cep, cep_dig, ddd_tel, tel, ddd_tele_com, tele_com) VALUES(%s, '$date', %s, %s, %s, %s, %d, %s, %d, %d, %d, %d, %d, %d)"
+    dados = (str(nome), date(data_nasc), str(cpf), str(email), str(sexo), str(logradouro), int(num_casa), str(compl), int(cep), int(cep_dig), int(ddd_tele), int(tele), int(ddd_tele_com), int(tele_com))
     cursor.execute(comand_SQL, dados)
-    banco_cad_cli.commit()
+    banco_app_cad.commit()
 
 
 app = QtWidgets.QApplication([])
-formulario = uic.loadUi("formulario.ui")
+formulario = uic.loadUi("form.ui")
 formulario.send.clicked.connect(func_princ)
 
 
