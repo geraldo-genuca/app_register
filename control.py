@@ -1,7 +1,5 @@
-from sqlite3 import Cursor
 from PyQt5 import uic, QtWidgets
 import mysql.connector
-from datetime import date
 
 
 banco_app_cad = mysql.connector.connect(
@@ -14,15 +12,15 @@ banco_app_cad = mysql.connector.connect(
 
 def func_princ():
     nome = formulario.name.text()
-    data_nasc = formulario.date_nasc.text()
+    data_nasc = formulario.data_nasc.text()
     cpf = formulario.cpf.text()
     email = formulario.email.text()
     sexo = formulario.sex.text()
     logradouro = formulario.logra.text()
-    num_casa = formulario.num_house.text()
+    numero = formulario.num_house.text()
     compl = formulario.compl.text()
     cep = formulario.zip_code.text()
-    cep_dig = formulario.cep_dig.text()
+    cep_dig = formulario.zip_code.text()
     ddd_tele = formulario.ddd_tele.text()
     tele = formulario.tele.text()
     ddd_tele_com = formulario.ddd_tele_com.text()
@@ -30,8 +28,12 @@ def func_princ():
     
     
     cursor = banco_app_cad.cursor()
-    comand_SQL = "INSERT INTO clientes (nome, data_nasc, cpf, email, sexo, logradouro, numero, compl, cep, cep_dig, ddd_tel, tel, ddd_tele_com, tele_com) VALUES(%s, '$date', %s, %s, %s, %s, %d, %s, %d, %d, %d, %d, %d, %d)"
-    dados = (str(nome), date(data_nasc), str(cpf), str(email), str(sexo), str(logradouro), int(num_casa), str(compl), int(cep), int(cep_dig), int(ddd_tele), int(tele), int(ddd_tele_com), int(tele_com))
+    comand_SQL = "INSERT INTO cad_pes_fis (nome, data_nasc, cpf, email, sexo, logradouro, +\
+                    numero, compl, cep, cep_dig, ddd_tele, tele, ddd_tele_com, tele_com) +\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    dados = (str(nome), str(data_nasc), str(cpf), str(email), str(sexo), str(logradouro),
+                str(numero), str(compl), str(cep), str(cep_dig), str(ddd_tele), str(tele), 
+                str(ddd_tele_com), str(tele_com))
     cursor.execute(comand_SQL, dados)
     banco_app_cad.commit()
 
